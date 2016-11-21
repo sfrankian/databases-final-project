@@ -7,7 +7,7 @@ create table users(
        uid int not null primary key,
        email varchar(65) not null,
        pwd varchar(22) not null,
-       INDEX (uid),      
+       INDEX (uid)      
 ) ENGINE = InnoDB;
 
 drop table if exists poll;
@@ -17,13 +17,13 @@ create table poll(
        datecreated date not null,
        INDEX(id),
        INDEX(createdby),
-       foreign key (createdby) references users(pid) on delete cascade
+       foreign key (createdby) references users(uid) on delete cascade
 ) ENGINE = InnoDB;
 
 drop table if exists poll_options;
 create table poll_options(
+       oid int not null primary key,
        poll_id int not null,
-       oid int not null,
        location varchar(30),
        given_time time,
        INDEX (poll_id),
@@ -39,7 +39,7 @@ create table responses(
        INDEX (user_id),
        INDEX (poll_id),
        INDEX (oid),
-       foreign key (user_id) references users(uid) on delete set null,
-       foreign key (poll_id) references poll(id) on delete set null,
-       foreign key (oid) references poll_options(oid) on delete set null
+       foreign key (user_id) references users(uid) on delete cascade,
+       foreign key (poll_id) references poll(id) on delete cascade,
+       foreign key (oid) references poll_options(oid) on delete cascade
 ) ENGINE = InnoDB;

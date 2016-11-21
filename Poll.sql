@@ -2,49 +2,44 @@
 
 -- Creating the SQL tables for our application
 
-create table person(
-       pid int not null primary key,
+drop table if exists users;
+create table users(
+       uid int not null primary key,
        email varchar(65) not null,
        pwd varchar(22) not null,
-       INDEX (pid),      
+       INDEX (uid),      
 ) ENGINE = InnoDB;
 
+drop table if exists poll;
 create table poll(
        id int not null primary key,
        createdby int not null,
        datecreated date not null,
-       location1 int not null,
-       location2 int not null,
-       location3 int,
-       time1 time not null,
-       time2 time not null,
-       time3 time,
-       INDEX (id),
-       INDEX (createdby),
-       INDEX (location1),
-       INDEX (location2),
-       INDEX (location3),
-       INDEX (time1),
-       INDEX (time2),
-       INDEX (time2),
-       foreign key (createdby) references person(pid) on delete set null,
-       foreign key (time1) references poll_options(oid) on delete set null,
-       foreign key (time2) references poll_options(oid) on delete set null,
-       foreign key (time3) references poll_options(oid) on delete set null,
-       foreign key (location1) references poll_options(oid) on delete set null,
-       foreign key (location2) references poll_options(oid) on delete set null,
-       foreign key (location3) references poll_options(oid) on delete set null,
+       INDEX(id),
+       INDEX(createdby),
+       foreign key (createdby) references users(pid) on delete cascade
 ) ENGINE = InnoDB;
 
+drop table if exists poll_options;
 create table poll_options(
+       poll_id int not null,
        oid int not null,
-       given_time time,
        location varchar(30),
-       INDEX (oid),
-       foreign key (oid) references poll(id) on delete cascade
+       given_time time,
+       INDEX (poll_id),
+       foreign key (poll_id) references poll(id) on delete cascade
 ) ENGINE = InnoDB;
 
+drop table if exists responses;
 create table responses(
-       rid int not null,
-       INDEX (rid)
+       user_id int not null,
+       poll_id int not null,
+       oid int not null,
+       response tinyint(1) not null,
+       INDEX (user_id),
+       INDEX (poll_id),
+       INDEX (oid),
+       foreign key (user_id) references users(uid) on delete set null,
+       foreign key (poll_id) references poll(id) on delete set null,
+       foreign key (oid) references poll_options(oid) on delete set null
 ) ENGINE = InnoDB;

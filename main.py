@@ -8,7 +8,7 @@
 import db_functions
 from flask import Flask, request,render_template, redirect, url_for
 
-
+conn = db_functions.connectToDB() # saving the conn so we don't need to reconnect with every query
 app = Flask(__name__)
 
 @app.route('/')

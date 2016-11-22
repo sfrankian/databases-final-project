@@ -13,6 +13,7 @@ create table users(
 drop table if exists poll;
 create table poll(
        id int not null primary key,
+       poll_name varchar(50) not null,
        createdby int not null,
        datecreated date not null,
        INDEX(id),

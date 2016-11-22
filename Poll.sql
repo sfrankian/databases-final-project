@@ -14,9 +14,10 @@ drop table if exists poll;
 create table poll(
        id int not null primary key,
        poll_name varchar(50) not null,
+       link varchar(30),
        createdby int not null,
        datecreated date not null,
-       INDEX(id),
+       INDEX(id), 
        INDEX(createdby),
        foreign key (createdby) references users(uid) on delete cascade
 ) ENGINE = InnoDB;

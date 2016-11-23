@@ -1,0 +1,42 @@
+<!--Stephanie Frankian and Elizabeth Kuszmaul
+    home.html
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WhenAndWhere: Response</title>
+   </head>
+  <body>
+     <nav>
+      <a href="/">Home</a></li>
+      <a href="/create">Create a Poll</a></li>
+     </nav>
+     <h1>Respond to the poll</h1>
+     <form method="POST" action="/response/{{myhash}}">
+          
+          <h2>Times</h2><br/>
+	  {% if times|length != 0 %}
+     	      {% for time in times %}
+               <label for "{{time['given_time']}}">Time {{loop.index}}: {{time['given_time']}} </label>
+	       <input type="checkbox" name="{{time['given_time']}}"/> 
+              {% endfor %}
+	  {% else %}
+	       <p> No times listed </p>
+	  {% endif %}
+	 <br/>
+	 {% if locations|length != 0 %}
+	  <h2>Locations</h2> <br/>
+          {% for location in locations %}
+             <label for "{{location['location']}}">Location {{loop.index}}: {{location['location']}}</label>
+	     <input type="checkbox" name="{{location['location']}}"/> 
+          {% endfor %} 
+	  {% else %}
+	     <p> No locations listed </p>
+ 	  {% endif %}
+      <br/>
+      <input type="submit" name="submit-btn" value="Submit">
+
+    </form>
+
+  </body>
+</html>

@@ -5,14 +5,14 @@
 <html>
   <head>
     <title>WhenAndWhere: Create Poll</title>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script> 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
-  <script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
-   </head>
+  </head>
+
   <body>
      <nav>
       <a href="/">Home</a>
-      <a href="/create">Create a Poll</a>
+      <a href="/create/">Create a Poll</a>
      </nav>
      <h1>Create a Poll</h1>
 
@@ -21,21 +21,22 @@
         <input type="button" id="remove_time" value="Remove">
        </p>
      </div>
-     <form>
+     <form method="{{meth}}" action="{{script}}">
        <p>
          <input type="button" value="Add time" id="add_time">
        </p>
-     </form>
-
      <div id="location_form" class="hidden">
        <p>Location: <input type="text" name="location"> 
         <input type="button" id="remove_location" value="Remove">
        </p>
      </div>
-     <form>
        <p>
          <input type="button" value="Add location" id="add_location">
        </p>
+        <input type="submit" id="submit" name="submit" value="Submit">
      </form>
+
+     <script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+
   </body>
 </html>

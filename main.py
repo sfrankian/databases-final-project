@@ -48,6 +48,20 @@ def poll_response(myhash):
         locations = db_functions.getLocationsGivenPollID(conn,poll_id)
         return render_template("poll_response.html",script=url_for('thanks'),locations=locations,times=times)
 
+@app.route('/process_response/', methods=["GET", "POST"])
+def process_response():
+	if request.method == "POST":
+		# Getting the checked boxes from the form
+		time_checks = request.form.getlist('time')
+		location_checks = request.form.getlist('location')
+		
+		# TODO: votes to the database to update
+		
+				
+		# Updating the database with the checked responses
+		return redirect( url_for('thanks') )
+		
+
 @app.route('/thanks/', methods=["GET","POST"])
 def thanks():
     return render_template("thanks.html")

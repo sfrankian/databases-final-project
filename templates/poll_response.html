@@ -18,7 +18,7 @@
 	  {% if times|length != 0 %}
      	      {% for time in times %}
                <label for "{{time['given_time']}}">Time {{loop.index}}: {{time['given_time']}} </label>
-	       <input type="checkbox" name="{{time['given_time']}}"/> 
+	       <input type="checkbox" name="time" value="{{time['given_time']}}"/> 
               {% endfor %}
 	  {% else %}
 	       <p> No times listed </p>
@@ -29,7 +29,7 @@
          {% if locations|length != 0 %}
 	  {% for location in locations %}
              <label for "{{location['location']}}">Location {{loop.index}}: {{location['location']}}</label>
-	     <input type="checkbox" name="{{location['location']}}"/> 
+	     <input type="checkbox" name="location" value="{{location['location']}}"/> 
           {% endfor %} 
 	  {% else %}
 	     <p> No locations listed </p>

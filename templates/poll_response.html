@@ -12,7 +12,7 @@
       <a href="/create">Create a Poll</a></li>
      </nav>
      <h1>Respond to the poll</h1>
-     <form method="POST" action="/response/{{myhash}}">
+     <form method="POST" action="{{script}}">
           
           <h2>Times</h2><br/>
 	  {% if times|length != 0 %}
@@ -24,9 +24,10 @@
 	       <p> No times listed </p>
 	  {% endif %}
 	 <br/>
-	 {% if locations|length != 0 %}
+	 
 	  <h2>Locations</h2> <br/>
-          {% for location in locations %}
+         {% if locations|length != 0 %}
+	  {% for location in locations %}
              <label for "{{location['location']}}">Location {{loop.index}}: {{location['location']}}</label>
 	     <input type="checkbox" name="{{location['location']}}"/> 
           {% endfor %} 

@@ -4,9 +4,7 @@
     November 22, 2016
     main.py
 '''
-from __future__ import print_function
 import db_functions
-import sys
 from flask import Flask, request,render_template, redirect, url_for
 
 conn = db_functions.connectToDB() # saving the conn so we don't need to reconnect with every query
@@ -20,7 +18,7 @@ def home():
 def process():
     if request.method == "POST":
         myhash = db_functions.generateAndStoreHash(conn) # making a hashed link and storing in database
-        print(myhash, file=sys.stderr)
+        
         times = []
         locations = []
         
@@ -42,10 +40,17 @@ def process():
     
 @app.route('/poll_response/<myhash>', methods=["GET","POST"])
 def poll_response(myhash):
-    poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
-    times = db_functions.getTimesGivenPollID(conn,poll_id)
-    locations = db_functions.getLocationsGivenPollID(conn,poll_id)
-    return render_template("poll_response.html",myhash=myhash,locations=locations,times=times)
+    if request.method == "POST":
+        return redirect( url_for('thanks') )
+    else:
+        poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
+        times = db_functions.getTimesGivenPollID(conn,poll_id)
+        locations = db_functions.getLocationsGivenPollID(conn,poll_id)
+        return render_template("poll_response.html",script=url_for('thanks'),locations=locations,times=times)
+
+@app.route('/thanks/', methods=["GET","POST"])
+def thanks():
+    return render_template("thanks.html")
 
 @app.route('/create/', methods = ["GET","POST"])
 def create():

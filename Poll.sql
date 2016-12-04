@@ -33,7 +33,7 @@ drop table if exists responses;
 create table responses(
        poll_id int not null,
        oid int not null,
-       response tinyint(1) not null,
+       response smallint not null,
        INDEX (poll_id),
        INDEX (oid),
        foreign key (poll_id) references poll(id) on delete cascade,

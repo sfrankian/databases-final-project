@@ -1,0 +1,17 @@
+<!--Stephanie Frankian and Elizabeth Kuszmaul
+    home.html
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WhenAndWhere: Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+   </head>
+  <body>
+     <nav>
+      <a href="/">Home</a></li>
+      <a href="/create">Create a Poll</a></li>
+     </nav>
+     <h1>Welcome to WhenAndWhere</h1>
+  </body>
+</html>

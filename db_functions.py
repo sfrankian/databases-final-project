@@ -82,13 +82,13 @@ def getPollIDGivenLink(conn, link):
 # Returns all of the time poll options associated with a poll ID
 def getTimesGivenPollID(conn,poll_id):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT given_time FROM poll_options WHERE poll_id = %s";
+    sql = "SELECT given_time FROM poll_options WHERE poll_id = %s and given_time is not NULL";
     curs.execute(sql, (poll_id,))
     return curs.fetchall()
 
 # Returns all of the location poll options associated with a poll ID
 def getLocationsGivenPollID(conn,poll_id):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT location FROM poll_options WHERE poll_id = %s";
+    sql = "SELECT location FROM poll_options WHERE poll_id = %s and location is not NULL";
     curs.execute(sql, (poll_id,))
     return curs.fetchall()

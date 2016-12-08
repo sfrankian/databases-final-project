@@ -55,7 +55,7 @@ def insertTimeOptions(conn, poll_id, times):
 # Database function to insert the locations
 def insertLocationOptions(conn, poll_id, locations):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "INSERT INTO poll_options VALUES(NULL, %s, %s,NULL)"
+    sql = "INSERT INTO poll_options VALUES(%s, NULL, %s,NULL)"
     for location in locations:
         if location != "":
             curs.execute(sql, (poll_id,location,))

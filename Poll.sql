@@ -25,8 +25,7 @@ create table poll_options(
        poll_id int not null,
        location varchar(30),
        given_time time,
-       INDEX (poll_id),
-       foreign key (poll_id) references poll(id) on delete cascade
+       INDEX (poll_id)
 ) ENGINE = InnoDB;
 
 drop table if exists responses;
@@ -36,6 +35,5 @@ create table responses(
        response smallint not null,
        INDEX (poll_id),
        INDEX (oid),
-       foreign key (poll_id) references poll(id) on delete cascade,
        foreign key (oid) references poll_options(oid) on delete cascade
 ) ENGINE = InnoDB;

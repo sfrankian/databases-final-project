@@ -92,3 +92,27 @@ def getLocationsGivenPollID(conn,poll_id):
     sql = "SELECT location FROM poll_options WHERE poll_id = %s and location is not NULL";
     curs.execute(sql, (poll_id,))
     return curs.fetchall()
+
+# Helper function to get the oid given a poll_id and value
+def getOIDGivenPollID(conn,poll_id,val):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    sql = "SELECT oid FROM poll_options WHERE poll_id = %s and location=%s OR given_time=%s";
+    curs.execute(sql, (poll_id,val,val,))
+    row = curs.fetchone()
+    return row['oid']
+
+# Updates the database with the responses given by a user
+def updateResponsesGivenPollID(conn,poll_id,checked_times, checked_locations):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    for time in checked_times:
+        # Get the OID given a time
+        oid = getOIDGivenPollID(conn,poll_id,time)
+        #sql = "INSERT INTO responses (poll_id, oid, response) VALUES(%s,%s,1) ON DUPLICATE KEY UPDATE response=response+1"
+        sql = REPLACE
+        curs.execute(sql, (poll_id,oid))
+
+    for location in checked_locations:
+        # Get the OID given a location
+        oid = getOIDGivenPollID(conn,poll_id,location)
+        sql2 = "INSERT INTO responses (poll_id,oid,response) VALUES(%s,%s,1) ON DUPLICATE KEY UPDATE response=response+1";
+        curs.execute(sql2, (poll_id,oid))

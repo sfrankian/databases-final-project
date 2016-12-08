@@ -46,18 +46,18 @@ def poll_response(myhash):
         poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
         times = db_functions.getTimesGivenPollID(conn,poll_id)
         locations = db_functions.getLocationsGivenPollID(conn,poll_id)
-        return render_template("poll_response.html",script=url_for('thanks'),locations=locations,times=times)
+        return render_template("poll_response.html",script=url_for('process_response',myhash=myhash),locations=locations,times=times)
 
-@app.route('/process_response/', methods=["GET", "POST"])
-def process_response():
+@app.route('/process_response/<myhash>', methods=["GET", "POST"])
+def process_response(myhash):
 	if request.method == "POST":
 		# Getting the checked boxes from the form
-		time_checks = request.form.getlist('time')
-		location_checks = request.form.getlist('location')
+		checked_times = request.form.getlist('time')
+		checked_locations = request.form.getlist('location')
 		
 		# TODO: votes to the database to update
-		
-				
+		poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
+		db_functions.updateResponsesGivenPollID(conn,poll_id,checked_times, checked_locations)		
 		# Updating the database with the checked responses
 		return redirect( url_for('thanks') )
 		

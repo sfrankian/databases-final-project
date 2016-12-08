@@ -5,13 +5,15 @@
 <html>
   <head>
     <title>WhenAndWhere: Home</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"/>
    </head>
   <body>
-     <nav>
-      <a href="/">Home</a></li>
-      <a href="/create">Create a Poll</a></li>
-     </nav>
+   
+     <ul>
+      <li> <a href="/">Home</a></li>
+      <li> <a href="/create/">Create a Poll</a></li>
+     </ul>
      <h1>Welcome to WhenAndWhere</h1>
+     <h`>With WhenAndWhere, you can create a quick, easy poll for you and your friends to anonymously vote on when and where to meet up.</h`>
   </body>
 </html>

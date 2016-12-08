@@ -1,14 +1,24 @@
 /*CSS for Create Page*/
 
+body {
+ /*photo credit to: https://pixabay.com/p-589830/?no_redirect*/
+ background-image: url("/static/images/whenandwherephoto.jpg");
+ background-size: 100% auto;
+}
+
+p {
+    color: white;
+}
+
 .hidden {
     display: none;
 }
 
 .button {
 /* http://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_basic */
-    background-color: white;
+    background-color: transparent;
     border: none;
-    color: black;
+    color: white;
     text-align: center;
     text-decoration: underline;
     display: inline-block;
@@ -17,7 +27,7 @@
 }
 
 .button:hover {
-    color: grey;
+    color: lightgray;
 }
 
 li {

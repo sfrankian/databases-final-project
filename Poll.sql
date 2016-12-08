@@ -12,7 +12,7 @@ create table poll(
 drop table if exists poll_options;
 create table poll_options(
        poll_id int not null,
-       oid int not null,
+       oid int not null auto_increment,
        location varchar(30),
        given_time time,
        INDEX (oid),

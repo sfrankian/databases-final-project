@@ -1,3 +1,5 @@
+/*CSS for Create Page*/
+
 .hidden {
     display: none;
 }
@@ -43,14 +45,6 @@ ul {
     background-color: #333;
 }
 
-.currlink {
-    background-color:black;
-    display:block;
-    color:white;
-    text-align:center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
 
 .submit {
     background-color: #333;

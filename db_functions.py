@@ -6,23 +6,23 @@
 import random
 import string
 import sys
-from hashlib import sha512
 import MySQLdb
 import dbconn2
 
 
 # Helper function for generating a random hash link
 # Credit to http://stackoverflow.com/questions/16516280/how-to-generate-a-hashed-share-link-using-flask
-def generateRandomString(conn):
+def generateRandomString():
     charset = string.ascii_letters + string.digits
     random_str = ''.join(random.choice(charset) for i in xrange(24))
-    
-    # Inserting the random string as a link into the database
-    sql = "INSERT INTO poll values (NULL,'poll',%s,CURDATE());"
-    curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    row = curs.execute(sql, (random_str,))
-
     return random_str
+
+def addToPollTable(conn,poll_name,link,email):
+    # Inserting the new poll into the database
+    sql = "INSERT INTO poll values (NULL,%s,%s,%s,CURDATE());"
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    row = curs.execute(sql, (poll_name,link,email))
+
 # Helper function that connects to the database
 def connectToDB():
     dsn = dbconn2.read_cnf('.my.cnf')
@@ -96,8 +96,7 @@ def updateResponsesGivenPollID(conn,poll_id,checked_times, checked_locations):
     for time in checked_times:
         # Get the OID given a time
         oid = getOIDGivenPollID(conn,poll_id,time)
-        #sql = "INSERT INTO responses (poll_id, oid, response) VALUES(%s,%s,1) ON DUPLICATE KEY UPDATE response=response+1"
-        sql = REPLACE
+        sql = "INSERT INTO responses (poll_id, oid, response) VALUES(%s,%s,1) ON DUPLICATE KEY UPDATE response=response+1"
         curs.execute(sql, (poll_id,oid))
 
     for location in checked_locations:

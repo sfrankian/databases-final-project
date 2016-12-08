@@ -1,0 +1,19 @@
+<!--Stephanie Frankian and Elizabeth Kuszmaul
+    home.html
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WhenAndWhere: Thanks For Creating a Poll With Us!</title>
+   </head>
+  <body>
+     <nav>
+      <a href="/">Home</a></li>
+      <a href="/create">Create a Poll</a></li>
+     </nav>
+     <h1>Thanks for creating a poll with us!</h1>
+     <p> You can view your poll, {{poll_name}},
+       <a href=" {{ url_for('poll_response', myhash=myhash) }}">here</a> </p>
+     </p>
+  </body>
+</html>

@@ -5,6 +5,7 @@ create table poll(
        id int not null primary key auto_increment,
        poll_name varchar(50) not null,
        link varchar(30),
+       email varchar(50),
        datecreated date not null,
        INDEX(id)
 ) ENGINE = InnoDB;

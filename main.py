@@ -5,6 +5,7 @@
     main.py
 '''
 import db_functions
+import send_email
 from flask import Flask, request,render_template, redirect, url_for
 
 conn = db_functions.connectToDB() # saving the conn so we don't need to reconnect with every query
@@ -17,8 +18,11 @@ def home():
 @app.route('/process/', methods=["GET","POST"])
 def process():
     if request.method == "POST":
-        myhash = db_functions.generateRandomString(conn) # making a hashed link and storing in database
-        
+        # Making the hashed link and storing it in the database
+        email = request.form["email"]
+        poll_name = request.form["name"]
+        myhash = db_functions.generateRandomString()
+        db_functions.addToPollTable(conn,poll_name,myhash,email)
         times = []
         locations = []
         
@@ -30,13 +34,16 @@ def process():
                 
         # Get the poll_id for a given link
         poll_id = db_functions.getPollIDGivenLink(conn, myhash)
-
+        
         # Database function to insert the locations into poll options
         db_functions.insertTimeOptions(conn,poll_id,times)
         
         # Database function to insert the locations
         db_functions.insertLocationOptions(conn,poll_id,locations)
-        return redirect( url_for('poll_response', myhash=myhash) )
+
+        # Send link to the poll creator
+        send_email.sendPollCreatedEmail(email,myhash)
+        return render_template( 'thanks_for_creating_poll.html', poll_name=poll_name,myhash=myhash)
     
 @app.route('/poll_response/<myhash>', methods=["GET","POST"])
 def poll_response(myhash):

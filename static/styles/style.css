@@ -2,4 +2,66 @@
     display: none;
 }
 
+.button {
+/* http://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_basic */
+    background-color: white;
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: underline;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 
+.button:hover {
+    color: grey;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display:block;
+    color:white;
+    text-align:center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+ul {
+/* credit to http://www.w3schools.com/css/css_navbar.asp for navbar css help */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.currlink {
+    background-color:black;
+    display:block;
+    color:white;
+    text-align:center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.submit {
+    background-color: #333;
+    border-color: black;
+    color: white;
+    padding: 5px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    background-color: #111;
+}

@@ -13,31 +13,20 @@ import dbconn2
 
 # Helper function for generating a random hash link
 # Credit to http://stackoverflow.com/questions/16516280/how-to-generate-a-hashed-share-link-using-flask
-def generateRandomString():
+def generateRandomString(conn):
     charset = string.ascii_letters + string.digits
-    return ''.join(random.choice(charset) for i in xrange(24))
-
-# Returns a random hashed link given a poll id and updates the database entry to
-# include the generated hash
-# Credit to http://stackoverflow.com/questions/16516280/how-to-generate-a-hashed-share-link-using-flask
-def generateAndStoreHash(conn):
-    # generating the hash
-    hash = sha512()
-    hash.update(generateRandomString())
-    myhash = hash.hexdigest()[:24]
-
+    random_str = ''.join(random.choice(charset) for i in xrange(24))
     
-    # Inserting the new poll with its hash into the database
-    sql = "INSERT INTO poll values(NULL,'hi',%s,CURDATE())"
+    # Inserting the random string as a link into the database
+    sql = "INSERT INTO poll values (NULL,'poll',%s,CURDATE());"
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    row = curs.execute(sql, (myhash,))
+    row = curs.execute(sql, (random_str,))
 
-    return myhash
-    
+    return random_str
 # Helper function that connects to the database
 def connectToDB():
-    dsn = dbconn2.read_cnf('/students/sfrankia/.my.cnf')
-    dsn['db'] = 'sfrankia_db'
+    dsn = dbconn2.read_cnf('.my.cnf')
+    dsn['db'] = 'ekuszmau_db'
     conn = dbconn2.connect(dsn)
     return conn
 

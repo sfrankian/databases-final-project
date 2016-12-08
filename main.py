@@ -17,7 +17,7 @@ def home():
 @app.route('/process/', methods=["GET","POST"])
 def process():
     if request.method == "POST":
-        myhash = db_functions.generateAndStoreHash(conn) # making a hashed link and storing in database
+        myhash = db_functions.generateRandomString(conn) # making a hashed link and storing in database
         
         times = []
         locations = []

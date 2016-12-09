@@ -8,12 +8,12 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"/>
    </head>
   <body>
-     <nav>
-      <a href="/">Home</a></li>
-      <a href="/create">Create a Poll</a></li>
-     </nav>
-     <h1>Thanks for creating a poll with us!</h1>
-     <p> You can view your poll, {{poll_name}},
+      <ul>
+      <li> <a href="/">Home</a></li>
+      <li> <a href="/create/">Create a Poll</a></li>
+     </ul>
+     <h1>Thanks for creating a poll with us! We have emailed you the poll's link to forward to your friends.</h1>
+     <p> You can also view your poll, {{poll_name}},
        <a href=" {{ url_for('poll_response', myhash=myhash) }}">here</a> </p>
      </p>
   </body>

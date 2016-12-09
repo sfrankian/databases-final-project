@@ -25,8 +25,8 @@ def addToPollTable(conn,poll_name,link,email):
 
 # Helper function that connects to the database
 def connectToDB():
-    dsn = dbconn2.read_cnf('/students/sfrankia/.my.cnf')
-    dsn['db'] = 'sfrankia_db'
+    dsn = dbconn2.read_cnf('.my.cnf')
+    dsn['db'] = 'ekuszmau_db'
     conn = dbconn2.connect(dsn)
     return conn
 

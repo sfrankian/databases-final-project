@@ -1,0 +1,48 @@
+<!--Stephanie Frankian and Elizabeth Kuszmaul
+    home.html
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WhenAndWhere: Create Poll</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"/>
+  </head>
+
+  <body>
+     <ul>
+      <li> <a href="/">Home</a></li>
+      <li> <a href="/create/">Create a Poll</a></li>
+     </ul>
+     <h1>New Poll</h1>
+
+     <form method="{{meth}}" action="{{script}}">
+       <div id = "initial_time_form">
+       <p>Time: <input type="text" name="time"></p>  
+       </div>
+     <div id="time_form" class="hidden">
+       <p>Time: <input type="text" name="time"> 
+        <input type="button" id="remove_time" value="Remove" class="button">
+       </p>
+     </div>
+       <p>
+         <input type="button" value="Add another time" id="add_time">
+       </p>
+       <div id = "initial_location_form">
+       <p>Location: <input type="text" name="location"></p>
+       </div>
+       <div id="location_form" class="hidden">
+       <p>Location: <input type="text" name="location"> 
+        <input type="button" id="remove_location" value="Remove" class="button">
+       </p>
+     </div>
+       <p>
+         <input type="button" value="Add another location" id="add_location">
+       </p>
+        <input type="submit" id="submit" name="submit" class="submit" value="Submit">
+     </form>
+
+     <script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
+
+  </body>
+</html>

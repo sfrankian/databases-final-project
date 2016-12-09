@@ -6,9 +6,12 @@
 '''
 import db_functions
 import send_email
+import sys
 from flask import Flask, request,render_template, redirect, url_for
 
-conn = db_functions.connectToDB() # saving the conn so we don't need to reconnect with every query
+path_to_cnf = sys.argv[1]
+db_name = sys.argv[2]
+conn = db_functions.connectToDB(path_to_cnf,db_name) # saving the conn so we don't need to reconnect with every query
 app = Flask(__name__)
 
 @app.route('/')

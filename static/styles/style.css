@@ -6,6 +6,11 @@ body {
  background-size: 100% auto;
 }
 
+label {
+    color: white;
+    padding: 0px 0px 15px 15px;
+}
+
 p {
     color: white;
 }

@@ -68,6 +68,11 @@ def process_response(myhash):
 		# Updating the database with the checked responses
 		return redirect( url_for('thanks') )
 		
+@app.route('/view_responses/<myhash>', methods=["GET","POST"])
+def view_responses(myhash):
+    poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
+    responses_dict = db_functions.returnVotesForPoll(conn,poll_id)
+    return render_template("view_responses.html", responses_dict=responses_dict)
 
 @app.route('/thanks/', methods=["GET","POST"])
 def thanks():
@@ -79,6 +84,6 @@ def create():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run('0.0.0.0', 9875)
+    app.run('0.0.0.0', 9874)
 
 

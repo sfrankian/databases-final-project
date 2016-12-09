@@ -60,6 +60,13 @@ def insertLocationOptions(conn, poll_id, locations):
         if location != "":
             curs.execute(sql, (poll_id,location,))
 
+# Returns all of the votes so far for a given poll
+def returnVotesForPoll(conn, poll_id):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    sql = "SELECT location,given_time,response FROM responses inner join poll_options USING (poll_id) WHERE poll_id=%s;"
+    curs.execute(sql, (poll_id,))
+    return curs.fetchall()
+
 # Returns a poll's ID given a hashed link
 def getPollIDGivenLink(conn, link):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)

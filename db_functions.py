@@ -25,8 +25,8 @@ def addToPollTable(conn,poll_name,link,email):
 
 # Helper function that connects to the database
 def connectToDB():
-    dsn = dbconn2.read_cnf('.my.cnf')
-    dsn['db'] = 'ekuszmau_db'
+    dsn = dbconn2.read_cnf('/students/sfrankia/.my.cnf')
+    dsn['db'] = 'sfrankia_db'
     conn = dbconn2.connect(dsn)
     return conn
 
@@ -47,7 +47,7 @@ def getLocationsByPollID(conn,poll_id):
 # Database function to insert the locations into poll options
 def insertTimeOptions(conn, poll_id, times):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "INSERT INTO poll_options VALUES(NULL, %s,NULL, %s)"
+    sql = "INSERT INTO poll_options VALUES(%s, NULL,NULL, %s)"
     for time in times:
         if time != "":
             curs.execute(sql, (poll_id,time,))

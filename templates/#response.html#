@@ -1,0 +1,43 @@
+<!--Stephanie Frankian and Elizabeth Kuszmaul
+    home.html
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WhenAndWhere: Response</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"/>
+   </head>
+  <body>
+     <nav>
+      <a href="/">Home</a></li>
+      <a href="/create">Create a Poll</a></li>
+     </nav>
+     <h1>Respond to {{poll_name}}</h1>
+     <form method="{{meth}}" action="{{script}}">
+      {% if times and not locations %}
+          {% for i in range(i,len(times)) %}
+             <label for "{{times[i]}}">Time: "{{i}}":</label>
+	     <input type="text" name="{{times[i]}}"/> 
+          {% endfor %}
+      {% if not times and not locations %}
+          {% for i in range(i,len(locations)) %}
+	     <label for "{{locations[i]}}">Location: "{{i}}":</label>
+	     <input type="text" name="{{locations[i]}}"/>
+          {% endfor %}
+      {% if times and locations %}
+          {% for i in range(i,len(times)) %}
+	     <label for "{{times[i]}}">Time: "{{i}}":</label>
+	     <input type="text" name="{{times[i]}}"/>
+          {% endfor %}
+          {% for j in range(j,len(locations)) %}
+	     <label for "{{locations[j]}}">Location: "{{j}}":</label>
+	     <input type="text" name="{{locations[j]}}"/>
+          {% endfor %}
+      {% endif %}
+  
+      <input type="submit" name="submit-btn" value="Submit">
+
+    </form>
+
+  </body>
+</html>

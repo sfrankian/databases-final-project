@@ -63,7 +63,7 @@ def insertLocationOptions(conn, poll_id, locations):
 # Returns all of the votes so far for a given poll
 def returnVotesForPoll(conn, poll_id):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT location,given_time,response FROM responses inner join poll_options USING (poll_id) WHERE poll_id=%s;"
+    sql = "SELECT location,given_time,response FROM responses inner join poll_options USING (oid) WHERE responses.poll_id=%s;"
     curs.execute(sql, (poll_id,))
     return curs.fetchall()
 

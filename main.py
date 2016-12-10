@@ -7,7 +7,7 @@
 import db_functions
 import send_email
 import sys
-from flask import Flask, request,render_template, redirect, url_for
+from flask import Flask, request,render_template, redirect, url_for, make_response
 
 path_to_cnf = sys.argv[1]
 db_name = sys.argv[2]
@@ -53,23 +53,32 @@ def poll_response(myhash):
     if request.method == "POST":
         return redirect( url_for('thanks') )
     else:
-        poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
-        times = db_functions.getTimesGivenPollID(conn,poll_id)
-        locations = db_functions.getLocationsGivenPollID(conn,poll_id)
-        return render_template("poll_response.html",script=url_for('process_response',myhash=myhash),locations=locations,times=times)
+        flaskname = request.cookies.get('flaskname')
+        if flaskname:
+            return redirect(url_for('already_voted'))
+        else:
+            poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
+            times = db_functions.getTimesGivenPollID(conn,poll_id)
+            locations = db_functions.getLocationsGivenPollID(conn,poll_id)
+            resp = make_response( render_template("poll_response.html",script=url_for('process_response',myhash=myhash),locations=locations,times=times))
+            resp.set_cookie('flaskname', myhash)
+            return resp
 
 @app.route('/process_response/<myhash>', methods=["GET", "POST"])
 def process_response(myhash):
-	if request.method == "POST":
-		# Getting the checked boxes from the form
-		checked_times = request.form.getlist('time')
-		checked_locations = request.form.getlist('location')
+
+    if request.method == "POST":
+        # Getting the checked boxes from the form
+        checked_times = request.form.getlist('time')
+        checked_locations = request.form.getlist('location')
 		
-		# TODO: votes to the database to update
-		poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
-		db_functions.updateResponsesGivenPollID(conn,poll_id,checked_times, checked_locations)		
-		# Updating the database with the checked responses
-		return redirect( url_for('thanks') )
+        # TODO: votes to the database to update
+        poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
+        db_functions.updateResponsesGivenPollID(conn,poll_id,checked_times, checked_locations)		
+        # Updating the database with the checked responses
+        return redirect(url_for('thanks'))
+
+
 		
 @app.route('/view_responses/<myhash>', methods=["GET","POST"])
 def view_responses(myhash):
@@ -81,12 +90,16 @@ def view_responses(myhash):
 def thanks():
     return render_template("thanks.html")
 
+@app.route('/already_voted/', methods=["GET","POST"])
+def already_voted():
+    return render_template("already_voted.html")
+
 @app.route('/create/', methods = ["GET","POST"])
 def create():
     return render_template("create.html", meth='POST',script=url_for('process'))
 
 if __name__ == '__main__':
     app.debug = True
-    app.run('0.0.0.0', 9874)
+    app.run('0.0.0.0', 9876)
 
 

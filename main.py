@@ -53,15 +53,15 @@ def poll_response(myhash):
     if request.method == "POST":
         return redirect( url_for('thanks') )
     else:
-        flaskname = request.cookies.get('flaskname')
-        if flaskname:
+        pollanswered = request.cookies.get(myhash)
+        if pollanswered:
             return redirect(url_for('already_voted'))
         else:
             poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
             times = db_functions.getTimesGivenPollID(conn,poll_id)
             locations = db_functions.getLocationsGivenPollID(conn,poll_id)
             resp = make_response( render_template("poll_response.html",script=url_for('process_response',myhash=myhash),locations=locations,times=times))
-            resp.set_cookie('flaskname', myhash)
+            resp.set_cookie(myhash, 'submitted response')
             return resp
 
 @app.route('/process_response/<myhash>', methods=["GET", "POST"])

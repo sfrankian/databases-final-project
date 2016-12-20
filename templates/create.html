@@ -6,6 +6,9 @@
   <head>
     <title>WhenAndWhere: Create Poll</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}"/>
   </head>
 
@@ -20,32 +23,34 @@
        <p>Poll Name: <input type="text" name="name"></p>
        <p>Email Address: <input type="text" name="email"></p>
        <br>
-       <div id = "initial_time_form">
-       <p>Time: <input type="text" name="time"></p>  
-       </div>
-     <div id="time_form" class="hidden">
-       <p>Time: <input type="text" name="time"> 
-        <input type="button" id="remove_time" value="Remove" class="button">
-       </p>
-     </div>
-       <p>
-         <input type="button" value="Add another time" id="add_time">
-       </p>
-       <div id = "initial_location_form">
-       <p>Location: <input type="text" name="location"></p>
-       </div>
-       <div id="location_form" class="hidden">
-       <p>Location: <input type="text" name="location"> 
-        <input type="button" id="remove_location" value="Remove" class="button">
-       </p>
-     </div>
-       <p>
-         <input type="button" value="Add another location" id="add_location">
-       </p>
+       
+       <table id="form_table">
+	 <tr>
+	   <th>Date</th>
+	   <th>Time</th>
+	   <th>Location</th>
+	   <th>Add row</th>
+	   <th>Remove</th>
+	 </tr>
+		
+	 <tr>
+	   <td><input type="text" name="date" class="pickDate"></td>	
+	   <td><input type="text" name="time"</td>
+	   <td><input type="text" name="location"</td>
+	   <td><input type="button" value="Add row" id="add_row"</td>
+	   <td><input type="button" id="remove_row" value="Remove" class="button"</td>
+	 </tr>
+					
+        </table>
+
         <input type="submit" id="submit" name="submit" class="submit" value="Submit">
      </form>
 
      <script type="text/javascript" src="{{ url_for('static', filename='scripts/main.js') }}"></script>
-
+     <script>
+	$(function () {
+            $('.pickDate').datepicker({ dateFormat: "dd/mm/yy" });
+        });
+     </script>
   </body>
 </html>

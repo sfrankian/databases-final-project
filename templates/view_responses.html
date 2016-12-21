@@ -13,18 +13,18 @@
       <li><a href="/create">Create a Poll</a></li>
      </ul>
      <h1>Responses To The Poll So Far</h1>
-          <table style="width:35%" >
+          <table id="response_table" style="width:35%" border="1px solid black">
 	    <tr>
 	    <th>Option</th>
 	    <th>Votes</th>
 	    </tr>
           {% for row in responses_dict %}
-	      <tr>
-              {% if row['given_time'] is not none %}
-                   <td>{{row['given_time']}}</td><td>{{row['response']}}</td>
-              {% else %}
-		   <td>{{row['location']}}</td><td>{{row['response']}}</td>
-              {% endif %}
+	    <tr>
+              <td align="center"> {{row['meeting_date']}}, {{row['given_time']}}  at {{row['location']}}</td>
+	      <td align="center">{{row['response']}}</td>
+             
+	
+        
 	      </tr>
           {% endfor %}
           </table>

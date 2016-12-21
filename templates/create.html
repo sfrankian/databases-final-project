@@ -26,9 +26,10 @@
      <form method="{{meth}}" action="{{script}}">
        <p>Poll Name: <input type="text" name="name"></p>
        <p>Email Address: <input type="text" name="email"></p>
+       <p>Poll Voting End Date: <input type="text" name="end_date" class="pickDate"></p>
        <br>
        
-       <table id="form_table">
+       <table id="form_table" name="form_table">
 	 <tr>
 	   <th>Date</th>
 	   <th>Time</th>
@@ -38,9 +39,9 @@
 	 </tr>
 		
 	 <tr>
-	   <td><input type="text" name="date" class="pickDate"></td>	
-	   <td><input type="text" name="time"</td>
-	   <td><input type="text" name="location"</td>
+	   <td><input type="text" name="date0" class="pickDate"></td>	
+	   <td><input type="text" name="time0"</td>
+	   <td><input type="text" name="location0"</td>
 	   <td><input type="button" value="Add row" id="add_row"</td>
 	   <td><input type="button" id="remove_row" value="Remove" class="button"</td>
 	 </tr>

@@ -7,6 +7,7 @@ create table poll(
        link varchar(30),
        email varchar(50),
        datecreated date not null,
+       expire_date date not null,
        INDEX(id)
 ) ENGINE = InnoDB;
 
@@ -15,6 +16,7 @@ create table poll_options(
        poll_id int not null,
        oid int not null auto_increment,
        location varchar(30),
+       meeting_date date,
        given_time time,
        INDEX (oid),
        INDEX (poll_id),

@@ -14,26 +14,10 @@
      </ul>
      <h1>Respond to {{poll_name}}</h1>
      <form method="{{meth}}" action="{{script}}">
-      {% if times and not locations %}
-          {% for i in range(i,len(times)) %}
-             <label for "{{times[i]}}">Time: "{{i}}":</label>
-	     <input type="text" name="{{times[i]}}"/>
-          {% endfor %}
-      {% if not times and not locations %}
-          {% for i in range(i,len(locations)) %}
-	     <label for "{{locations[i]}}">Location: "{{i}}":</label>
-	     <input type="text" name="{{locations[i]}}"/>
-          {% endfor %}
-      {% if times and locations %}
-          {% for i in range(i,len(times)) %}
-	     <label class="mylabels" for "{{times[i]}}">Time: "{{i}}":</label>
-	     <input type="text" name="{{times[i]}}"/>
-          {% endfor %}
-          {% for j in range(j,len(locations)) %}
-	     <label class="mylabels" for "{{locations[j]}}">Location: "{{j}}":</label>
-	     <input type="text" name="{{locations[j]}}"/>
-          {% endfor %}
-      {% endif %}
+      {% for option in options %}
+         <label class="mylabels" for "option{{loop.index}}">Option {{loop.index + 1}}: {{option[0]}}, {{option[1]}} at {{option[2]}}:</label>
+	 <input type="text" name="option{{loop.index}}"/>
+      {% endfor %}
   
       <input type="submit" name="submit-btn" value="Submit">
 

@@ -17,11 +17,11 @@ def generateRandomString():
     random_str = ''.join(random.choice(charset) for i in xrange(24))
     return random_str
 
-def addToPollTable(conn,poll_name,link,email):
+def addToPollTable(conn,poll_name,link,email,end_date):
     # Inserting the new poll into the database
-    sql = "INSERT INTO poll values (NULL,%s,%s,%s,CURDATE());"
+    sql = "INSERT INTO poll values (NULL,%s,%s,%s,CURDATE(),%s);"
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    row = curs.execute(sql, (poll_name,link,email))
+    row = curs.execute(sql, (poll_name,link,email,end_date,))
 
 # Helper function that connects to the database
 def connectToDB(path_to_cnf, db_name):
@@ -31,39 +31,24 @@ def connectToDB(path_to_cnf, db_name):
     return conn
 
 # Returns all of the time options associated with a given poll id
-def getTimesByPollID(conn,poll_id):
+def getOptionsByPollID(conn,poll_id):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT * FROM poll_options WHERE poll_id = %s and given_time not NULL;"
+    sql = "SELECT meeting_date,given_time,location FROM poll_options WHERE poll_id = %s;"
     curs.execute(sql, (poll_id,))
     return curs.fetchall() # returns all of the rows that match the sql query
-# Returns all of the location options for a given poll id
-def getLocationsByPollID(conn,poll_id):
-    curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT * FROM poll_options WHERE poll_id = %s and location not NULL;"
-    curs.execute(sql, (poll_id,))
-    return curs.fetchall() # returns all of the rows that match the sql query
-
 
 # Database function to insert the locations into poll options
-def insertTimeOptions(conn, poll_id, times):
+def insertOptions(conn, poll_id, options):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "INSERT INTO poll_options VALUES(%s, NULL,NULL, %s)"
-    for time in times:
-        if time != "":
-            curs.execute(sql, (poll_id,time,))
-        
-# Database function to insert the locations
-def insertLocationOptions(conn, poll_id, locations):
-    curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "INSERT INTO poll_options VALUES(%s, NULL, %s,NULL)"
-    for location in locations:
-        if location != "":
-            curs.execute(sql, (poll_id,location,))
+    sql = "INSERT INTO poll_options VALUES(%s, NULL,%s, %s,%s)"
 
+    for option in options:
+        curs.execute(sql, (poll_id,option[0],option[1],option[2],))
+        
 # Returns all of the votes so far for a given poll
 def returnVotesForPoll(conn, poll_id):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT location,given_time,response FROM responses inner join poll_options USING (oid) WHERE responses.poll_id=%s;"
+    sql = "SELECT location,given_time,meeting_date,response FROM responses inner join poll_options USING (oid) WHERE responses.poll_id=%s;"
     curs.execute(sql, (poll_id,))
     return curs.fetchall()
 
@@ -75,39 +60,40 @@ def getPollIDGivenLink(conn, link):
     row = curs.fetchone()
     return row['id']
 
-# Returns all of the time poll options associated with a poll ID
-def getTimesGivenPollID(conn,poll_id):
-    curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT given_time FROM poll_options WHERE poll_id = %s and given_time is not NULL";
-    curs.execute(sql, (poll_id,))
-    return curs.fetchall()
-
-# Returns all of the location poll options associated with a poll ID
-def getLocationsGivenPollID(conn,poll_id):
-    curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT location FROM poll_options WHERE poll_id = %s and location is not NULL";
-    curs.execute(sql, (poll_id,))
-    return curs.fetchall()
 
 # Helper function to get the oid given a poll_id and value
-def getOIDGivenPollID(conn,poll_id,val):
+def getOIDGivenPollID(conn,poll_id,option):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT oid FROM poll_options WHERE poll_id = %s and location=%s OR given_time=%s";
-    curs.execute(sql, (poll_id,val,val,))
+    sql = "SELECT oid FROM poll_options WHERE poll_id = %s and given_time=%s";
+    curs.execute(sql, (poll_id,option,))
     row = curs.fetchone()
     return row['oid']
 
 # Updates the database with the responses given by a user
-def updateResponsesGivenPollID(conn,poll_id,checked_times, checked_locations):
+def updateResponsesGivenPollID(conn,poll_id,checked_options):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    for time in checked_times:
+    for option in checked_options:
         # Get the OID given a time
-        oid = getOIDGivenPollID(conn,poll_id,time)
+        oid = getOIDGivenPollID(conn,poll_id,option)
         sql = "INSERT INTO responses (poll_id, oid, response) VALUES(%s,%s,1) ON DUPLICATE KEY UPDATE response=response+1"
         curs.execute(sql, (poll_id,oid))
+   
+# Returns a dictionary containing the ids and emails of all the polls expiring today
+def getPollsExpiringToday(conn):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    sql = "SELECT id,email FROM poll where expire_date = CURDATE();"
+    curs.execute(sql)
+    return curs.fetchall()
 
-    for location in checked_locations:
-        # Get the OID given a location
-        oid = getOIDGivenPollID(conn,poll_id,location)
-        sql2 = "INSERT INTO responses (poll_id,oid,response) VALUES(%s,%s,1) ON DUPLICATE KEY UPDATE response=response+1";
-        curs.execute(sql2, (poll_id,oid))
+# Returns a dictionary containing the ids and emails of all the polls expiring today
+def getPollsExpiredYesterday(conn):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    sql = "SELECT id,email FROM poll where expire_date = SUBDATE(CURDATE(),1);"
+    curs.execute(sql)
+    return curs.fetchall()
+
+def getEmailAddressGivenPollID(conn):
+    curs = conn.cursor(MySQLdb.cursors.DictCursor)
+    sql = "SELECT id FROM poll where expire_date = CURDATE();"
+    curs.execute(sql)
+    return curs.fetchall()

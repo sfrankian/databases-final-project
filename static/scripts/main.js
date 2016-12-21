@@ -20,19 +20,15 @@ $(document).ready(function() {
 		
 	
 		var newDate = document.createElement("input");
-		newDate.type = "input";
-		newDate.id = "date" + row_index;
-		newDate.className = "pickDate";
-		$(newDate).appendTo(col0);
-		$(newDate).datepicker();
+		//newDate.type = "input";
+		$(newDate).attr('className','pickDate').attr('name','date'+row_index).appendTo(col0);
+		$(newDate).datepicker({ dateFormat: "yy-mm-dd" });
 			
-		
 		input.name = "time" + row_index;
 		col1.appendChild(input);
 		
 		$(input).clone().prop('name','location'+row_index).appendTo(col2);
 		
-	
 	});
 	
 	$("#remove_row").click(function(){

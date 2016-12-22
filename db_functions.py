@@ -33,7 +33,7 @@ def connectToDB(path_to_cnf, db_name):
 # Returns all of the time options associated with a given poll id
 def getOptionsByPollID(conn,poll_id):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT meeting_date,given_time,location FROM poll_options WHERE poll_id = %s;"
+    sql = "SELECT oid,meeting_date,given_time,location FROM poll_options WHERE poll_id = %s;"
     curs.execute(sql, (poll_id,))
     return curs.fetchall() # returns all of the rows that match the sql query
 
@@ -74,9 +74,8 @@ def updateResponsesGivenPollID(conn,poll_id,checked_options):
     curs = conn.cursor(MySQLdb.cursors.DictCursor)
     for option in checked_options:
         # Get the OID given a time
-        oid = getOIDGivenPollID(conn,poll_id,option)
         sql = "INSERT INTO responses (poll_id, oid, response) VALUES(%s,%s,1) ON DUPLICATE KEY UPDATE response=response+1"
-        curs.execute(sql, (poll_id,oid))
+        curs.execute(sql, (poll_id,option,))
    
 # Returns a dictionary containing the ids and emails of all the polls expiring today
 def getPollsExpiringToday(conn):

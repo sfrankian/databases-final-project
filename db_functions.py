@@ -91,8 +91,3 @@ def getPollsExpiredYesterday(conn):
     curs.execute(sql)
     return curs.fetchall()
 
-def getEmailAddressGivenPollID(conn):
-    curs = conn.cursor(MySQLdb.cursors.DictCursor)
-    sql = "SELECT id FROM poll where expire_date = CURDATE();"
-    curs.execute(sql)
-    return curs.fetchall()

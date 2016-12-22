@@ -4,7 +4,6 @@
     November 22, 2016
     main.py
 '''
-from __future__ import print_function
 import db_functions
 import send_email
 import sys
@@ -31,6 +30,7 @@ def process():
         
         options = []
 
+        # Retrieving the options entered by the poll creator
         form_data = request.form
         form_data_keys = request.form.keys()
         for i in range(0,10):
@@ -68,11 +68,10 @@ def poll_response(myhash):
 
 @app.route('/process_response/<myhash>', methods=["GET", "POST"])
 def process_response(myhash):
-
     if request.method == "POST":
         # Getting the checked boxes from the form
         checked_options = request.form.getlist('option')
-        print(checked_options, file=sys.stderr)
+        
         poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
         db_functions.updateResponsesGivenPollID(conn,poll_id,checked_options)		
         # Updating the database with the checked responses
@@ -96,6 +95,9 @@ def already_voted():
 
 @app.route('/cron/')
 def cron_job():
+    # This function is called by the run_task.sh file that is
+    # setup as a cron job
+
     expiring_polls = db_functions.getPollsExpiringToday(conn)
     expired_yesterday_polls = db_functions.getPollsExpiredYesterday(conn)
 
@@ -111,6 +113,8 @@ def cron_job():
         results = db_functions.returnVotesForPoll(conn,curr_poll_id)
         send_email.sendResults(curr_email_address, results)
 
+    # It returns an empty string because there is nothing to be seen.
+    # Everything is running behind the scenes.
     return ""
 
 @app.route('/create/', methods = ["GET","POST"])

@@ -71,7 +71,7 @@ def process_response(myhash):
     if request.method == "POST":
         # Getting the checked boxes from the form
         checked_options = request.form.getlist('option')
-        
+        print checked_options;
         poll_id = db_functions.getPollIDGivenLink(conn, myhash) # getting the proper poll_id
         db_functions.updateResponsesGivenPollID(conn,poll_id,checked_options)		
         # Updating the database with the checked responses
